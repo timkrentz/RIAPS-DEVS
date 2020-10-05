@@ -1,0 +1,39 @@
+00:00:00:000
+State for model input_reader_con is next time: 00:00:00:000
+State for model port1 is state: 0
+00:00:00:000
+State for model input_reader_con is next time: 00:00:10:000
+State for model port1 is state: 0
+00:00:10:000
+State for model input_reader_con is next time: 00:00:20:000
+State for model port1 is state: 0
+00:00:30:000
+State for model input_reader_con is next time: 00:00:07:000
+State for model port1 is state: 1
+00:00:35:000
+State for model input_reader_con is next time: 00:00:07:000
+State for model port1 is state: 0
+00:00:37:000
+State for model input_reader_con is next time: 00:00:18:000
+State for model port1 is state: 1
+00:00:42:000
+State for model input_reader_con is next time: 00:00:18:000
+State for model port1 is state: 0
+00:00:55:000
+State for model input_reader_con is next time: 00:00:02:000
+State for model port1 is state: 1
+00:00:57:000
+State for model input_reader_con is next time: 00:01:48:000
+State for model port1 is state: 1
+00:01:02:000
+State for model input_reader_con is next time: 00:01:48:000
+State for model port1 is state: 0
+00:02:45:000
+State for model input_reader_con is next time: 00:00:10:000
+State for model port1 is state: 0
+00:02:55:000
+State for model input_reader_con is next time: inf
+State for model port1 is state: 1
+00:03:00:000
+State for model input_reader_con is next time: inf
+State for model port1 is state: 0

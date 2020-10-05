@@ -1,0 +1,615 @@
+00:00:00:000
+State for model component1 is : 0
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 0
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 0
+SubHandlerstate: 0	 Len: 0
+
+State for model component3 is : 0
+SubHandlerstate: 0	 Len: 0
+
+00:00:01:000
+State for model component1 is : 0
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 2
+State for model TimerPort2 is state: 2
+State for model component4 is : 0
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 0
+SubHandlerstate: 0	 Len: 0
+
+State for model component3 is : 0
+SubHandlerstate: 0	 Len: 0
+
+00:00:01:000
+State for model component1 is : 1
+TimerHandler1state: 1	 Len: 1
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 1
+TimerHandler2state: 1	 Len: 1
+
+State for model component2 is : 0
+SubHandlerstate: 0	 Len: 0
+
+State for model component3 is : 0
+SubHandlerstate: 0	 Len: 0
+
+00:00:01:100
+State for model component1 is : 2
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 2
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 0
+SubHandlerstate: 0	 Len: 0
+
+State for model component3 is : 0
+SubHandlerstate: 0	 Len: 0
+
+00:00:01:100
+State for model component1 is : 0
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 0
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 1
+SubHandlerstate: 1	 Len: 2
+
+State for model component3 is : 1
+SubHandlerstate: 1	 Len: 2
+
+00:00:01:200
+State for model component1 is : 0
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 0
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 2
+SubHandlerstate: 3	 Len: 1
+
+State for model component3 is : 1
+SubHandlerstate: 1	 Len: 2
+
+00:00:01:200
+State for model component1 is : 0
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 0
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 1
+SubHandlerstate: 1	 Len: 1
+
+State for model component3 is : 1
+SubHandlerstate: 1	 Len: 2
+
+00:00:01:300
+State for model component1 is : 0
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 0
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 2
+SubHandlerstate: 0	 Len: 0
+
+State for model component3 is : 2
+SubHandlerstate: 3	 Len: 1
+
+00:00:01:300
+State for model component1 is : 0
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 0
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 0
+SubHandlerstate: 0	 Len: 0
+
+State for model component3 is : 1
+SubHandlerstate: 1	 Len: 1
+
+00:00:01:500
+State for model component1 is : 0
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 0
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 0
+SubHandlerstate: 0	 Len: 0
+
+State for model component3 is : 2
+SubHandlerstate: 0	 Len: 0
+
+00:00:01:500
+State for model component1 is : 0
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 0
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 0
+SubHandlerstate: 0	 Len: 0
+
+State for model component3 is : 0
+SubHandlerstate: 0	 Len: 0
+
+00:00:02:000
+State for model component1 is : 0
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 2
+State for model TimerPort2 is state: 2
+State for model component4 is : 0
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 0
+SubHandlerstate: 0	 Len: 0
+
+State for model component3 is : 0
+SubHandlerstate: 0	 Len: 0
+
+00:00:02:000
+State for model component1 is : 1
+TimerHandler1state: 1	 Len: 1
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 1
+TimerHandler2state: 1	 Len: 1
+
+State for model component2 is : 0
+SubHandlerstate: 0	 Len: 0
+
+State for model component3 is : 0
+SubHandlerstate: 0	 Len: 0
+
+00:00:02:100
+State for model component1 is : 2
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 2
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 0
+SubHandlerstate: 0	 Len: 0
+
+State for model component3 is : 0
+SubHandlerstate: 0	 Len: 0
+
+00:00:02:100
+State for model component1 is : 0
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 0
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 1
+SubHandlerstate: 1	 Len: 2
+
+State for model component3 is : 1
+SubHandlerstate: 1	 Len: 2
+
+00:00:02:200
+State for model component1 is : 0
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 0
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 2
+SubHandlerstate: 3	 Len: 1
+
+State for model component3 is : 1
+SubHandlerstate: 1	 Len: 2
+
+00:00:02:200
+State for model component1 is : 0
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 0
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 1
+SubHandlerstate: 1	 Len: 1
+
+State for model component3 is : 1
+SubHandlerstate: 1	 Len: 2
+
+00:00:02:300
+State for model component1 is : 0
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 0
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 2
+SubHandlerstate: 0	 Len: 0
+
+State for model component3 is : 2
+SubHandlerstate: 3	 Len: 1
+
+00:00:02:300
+State for model component1 is : 0
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 0
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 0
+SubHandlerstate: 0	 Len: 0
+
+State for model component3 is : 1
+SubHandlerstate: 1	 Len: 1
+
+00:00:02:500
+State for model component1 is : 0
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 0
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 0
+SubHandlerstate: 0	 Len: 0
+
+State for model component3 is : 2
+SubHandlerstate: 0	 Len: 0
+
+00:00:02:500
+State for model component1 is : 0
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 0
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 0
+SubHandlerstate: 0	 Len: 0
+
+State for model component3 is : 0
+SubHandlerstate: 0	 Len: 0
+
+00:00:03:000
+State for model component1 is : 0
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 2
+State for model TimerPort2 is state: 2
+State for model component4 is : 0
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 0
+SubHandlerstate: 0	 Len: 0
+
+State for model component3 is : 0
+SubHandlerstate: 0	 Len: 0
+
+00:00:03:000
+State for model component1 is : 1
+TimerHandler1state: 1	 Len: 1
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 1
+TimerHandler2state: 1	 Len: 1
+
+State for model component2 is : 0
+SubHandlerstate: 0	 Len: 0
+
+State for model component3 is : 0
+SubHandlerstate: 0	 Len: 0
+
+00:00:03:100
+State for model component1 is : 2
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 2
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 0
+SubHandlerstate: 0	 Len: 0
+
+State for model component3 is : 0
+SubHandlerstate: 0	 Len: 0
+
+00:00:03:100
+State for model component1 is : 0
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 0
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 1
+SubHandlerstate: 1	 Len: 2
+
+State for model component3 is : 1
+SubHandlerstate: 1	 Len: 2
+
+00:00:03:200
+State for model component1 is : 0
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 0
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 2
+SubHandlerstate: 3	 Len: 1
+
+State for model component3 is : 1
+SubHandlerstate: 1	 Len: 2
+
+00:00:03:200
+State for model component1 is : 0
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 0
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 1
+SubHandlerstate: 1	 Len: 1
+
+State for model component3 is : 1
+SubHandlerstate: 1	 Len: 2
+
+00:00:03:300
+State for model component1 is : 0
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 0
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 2
+SubHandlerstate: 0	 Len: 0
+
+State for model component3 is : 2
+SubHandlerstate: 3	 Len: 1
+
+00:00:03:300
+State for model component1 is : 0
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 0
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 0
+SubHandlerstate: 0	 Len: 0
+
+State for model component3 is : 1
+SubHandlerstate: 1	 Len: 1
+
+00:00:03:500
+State for model component1 is : 0
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 0
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 0
+SubHandlerstate: 0	 Len: 0
+
+State for model component3 is : 2
+SubHandlerstate: 0	 Len: 0
+
+00:00:03:500
+State for model component1 is : 0
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 0
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 0
+SubHandlerstate: 0	 Len: 0
+
+State for model component3 is : 0
+SubHandlerstate: 0	 Len: 0
+
+00:00:04:000
+State for model component1 is : 0
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 2
+State for model TimerPort2 is state: 2
+State for model component4 is : 0
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 0
+SubHandlerstate: 0	 Len: 0
+
+State for model component3 is : 0
+SubHandlerstate: 0	 Len: 0
+
+00:00:04:000
+State for model component1 is : 1
+TimerHandler1state: 1	 Len: 1
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 1
+TimerHandler2state: 1	 Len: 1
+
+State for model component2 is : 0
+SubHandlerstate: 0	 Len: 0
+
+State for model component3 is : 0
+SubHandlerstate: 0	 Len: 0
+
+00:00:04:100
+State for model component1 is : 2
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 2
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 0
+SubHandlerstate: 0	 Len: 0
+
+State for model component3 is : 0
+SubHandlerstate: 0	 Len: 0
+
+00:00:04:100
+State for model component1 is : 0
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 0
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 1
+SubHandlerstate: 1	 Len: 2
+
+State for model component3 is : 1
+SubHandlerstate: 1	 Len: 2
+
+00:00:04:200
+State for model component1 is : 0
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 0
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 2
+SubHandlerstate: 3	 Len: 1
+
+State for model component3 is : 1
+SubHandlerstate: 1	 Len: 2
+
+00:00:04:200
+State for model component1 is : 0
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 0
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 1
+SubHandlerstate: 1	 Len: 1
+
+State for model component3 is : 1
+SubHandlerstate: 1	 Len: 2
+
+00:00:04:300
+State for model component1 is : 0
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 0
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 2
+SubHandlerstate: 0	 Len: 0
+
+State for model component3 is : 2
+SubHandlerstate: 3	 Len: 1
+
+00:00:04:300
+State for model component1 is : 0
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 0
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 0
+SubHandlerstate: 0	 Len: 0
+
+State for model component3 is : 1
+SubHandlerstate: 1	 Len: 1
+
+00:00:04:500
+State for model component1 is : 0
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 0
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 0
+SubHandlerstate: 0	 Len: 0
+
+State for model component3 is : 2
+SubHandlerstate: 0	 Len: 0
+
+00:00:04:500
+State for model component1 is : 0
+TimerHandler1state: 0	 Len: 0
+
+State for model TimerPort1 is state: 1
+State for model TimerPort2 is state: 1
+State for model component4 is : 0
+TimerHandler2state: 0	 Len: 0
+
+State for model component2 is : 0
+SubHandlerstate: 0	 Len: 0
+
+State for model component3 is : 0
+SubHandlerstate: 0	 Len: 0
+

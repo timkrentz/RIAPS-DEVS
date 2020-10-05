@@ -1,0 +1,18 @@
+00:00:00:000
+State for model timer1 is state: 1
+00:00:01:000
+State for model timer1 is state: 2
+00:00:01:000
+State for model timer1 is state: 1
+00:00:02:000
+State for model timer1 is state: 2
+00:00:02:000
+State for model timer1 is state: 1
+00:00:03:000
+State for model timer1 is state: 2
+00:00:03:000
+State for model timer1 is state: 1
+00:00:04:000
+State for model timer1 is state: 2
+00:00:04:000
+State for model timer1 is state: 1
