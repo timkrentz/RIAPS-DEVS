@@ -1,0 +1,90 @@
+00:00:00:000
+State for model input_reader is next time: 00:00:00:000
+State for model zmq is POLLING: FALSE AVAILABLE: FALSE
+State for model timer1 is Msg Count: 0
+State for model timer2 is Msg Count: 0
+00:00:00:000
+State for model input_reader is next time: 00:00:00:050
+State for model zmq is POLLING: FALSE AVAILABLE: FALSE
+State for model timer1 is Msg Count: 0
+State for model timer2 is Msg Count: 0
+00:00:00:050
+State for model input_reader is next time: 00:00:00:100
+State for model zmq is POLLING: TRUE AVAILABLE: FALSE
+State for model timer1 is Msg Count: 0
+State for model timer2 is Msg Count: 0
+00:00:00:100
+State for model input_reader is next time: 00:00:00:100
+State for model zmq is POLLING: TRUE AVAILABLE: TRUE
+State for model timer1 is Msg Count: 1
+State for model timer2 is Msg Count: 0
+00:00:00:100
+State for model input_reader is next time: 00:00:00:100
+State for model zmq is POLLING: FALSE AVAILABLE: TRUE
+State for model timer1 is Msg Count: 1
+State for model timer2 is Msg Count: 0
+00:00:00:150
+State for model input_reader is next time: 00:00:00:200
+State for model zmq is POLLING: TRUE AVAILABLE: TRUE
+State for model timer1 is Msg Count: 1
+State for model timer2 is Msg Count: 0
+00:00:00:150
+State for model input_reader is next time: 00:00:00:200
+State for model zmq is POLLING: FALSE AVAILABLE: TRUE
+State for model timer1 is Msg Count: 1
+State for model timer2 is Msg Count: 0
+00:00:00:200
+State for model input_reader is next time: 00:00:00:200
+State for model zmq is POLLING: FALSE AVAILABLE: TRUE
+State for model timer1 is Msg Count: 2
+State for model timer2 is Msg Count: 0
+00:00:00:300
+State for model input_reader is next time: 00:00:00:200
+State for model zmq is POLLING: FALSE AVAILABLE: TRUE
+State for model timer1 is Msg Count: 3
+State for model timer2 is Msg Count: 1
+00:00:00:350
+State for model input_reader is next time: 00:00:00:250
+State for model zmq is POLLING: TRUE AVAILABLE: TRUE
+State for model timer1 is Msg Count: 3
+State for model timer2 is Msg Count: 1
+00:00:00:350
+State for model input_reader is next time: 00:00:00:250
+State for model zmq is POLLING: FALSE AVAILABLE: TRUE
+State for model timer1 is Msg Count: 3
+State for model timer2 is Msg Count: 1
+00:00:00:400
+State for model input_reader is next time: 00:00:00:250
+State for model zmq is POLLING: FALSE AVAILABLE: TRUE
+State for model timer1 is Msg Count: 4
+State for model timer2 is Msg Count: 1
+00:00:00:500
+State for model input_reader is next time: 00:00:00:250
+State for model zmq is POLLING: FALSE AVAILABLE: TRUE
+State for model timer1 is Msg Count: 5
+State for model timer2 is Msg Count: 1
+00:00:00:600
+State for model input_reader is next time: inf
+State for model zmq is POLLING: TRUE AVAILABLE: TRUE
+State for model timer1 is Msg Count: 6
+State for model timer2 is Msg Count: 2
+00:00:00:600
+State for model input_reader is next time: inf
+State for model zmq is POLLING: FALSE AVAILABLE: TRUE
+State for model timer1 is Msg Count: 6
+State for model timer2 is Msg Count: 2
+00:00:00:700
+State for model input_reader is next time: inf
+State for model zmq is POLLING: FALSE AVAILABLE: TRUE
+State for model timer1 is Msg Count: 7
+State for model timer2 is Msg Count: 2
+00:00:00:800
+State for model input_reader is next time: inf
+State for model zmq is POLLING: FALSE AVAILABLE: TRUE
+State for model timer1 is Msg Count: 8
+State for model timer2 is Msg Count: 2
+00:00:00:900
+State for model input_reader is next time: inf
+State for model zmq is POLLING: FALSE AVAILABLE: TRUE
+State for model timer1 is Msg Count: 9
+State for model timer2 is Msg Count: 3

@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-std=c++17
+CFLAGS=-std=c++17 -g
 
 INCLUDECADMIUM=-I ../../cadmium/include
 INCLUDEDESTIMES=-I ../../DESTimes/include
@@ -31,25 +31,26 @@ message.o: data_structures/message.cpp
 timer_test.o: test/timer_test.cpp
 	$(CC) -g -c $(CFLAGS) $(INCLUDECADMIUM) $(INCLUDEDESTIMES) test/timer_test.cpp -o build/timer_test.o
 
-component_test.o: test/component_test.cpp
-	$(CC) -g -c $(CFLAGS) $(INCLUDECADMIUM) $(INCLUDEDESTIMES) test/component_test.cpp -o build/component_test.o
+zmq_test.o: test/zmq_test.cpp
+	$(CC) -g -c $(CFLAGS) $(INCLUDECADMIUM) $(INCLUDEDESTIMES) test/zmq_test.cpp -o build/zmq_test.o
+
+# component_test.o: test/component_test.cpp
+	# $(CC) -g -c $(CFLAGS) $(INCLUDECADMIUM) $(INCLUDEDESTIMES) test/component_test.cpp -o build/component_test.o
 
 # tests: main_subnet_test.o main_sender_test.o main_receiver_test.o port_test.o message.o
-tests: component_test.o
-		# $(CC) -g -o bin/SUBNET_TEST build/main_subnet_test.o build/message.o
-		# $(CC) -g -o bin/SENDER_TEST build/main_sender_test.o build/message.o 
-		# $(CC) -g -o bin/RECEIVER_TEST build/main_receiver_test.o build/message.o
-		# $(CC) -g -o bin/PORT_TEST build/port_test.o build/message.o
-		# $(CC) -g -o bin/TIMER_TEST build/timer_test.o build/message.o
-		$(CC) -g -o bin/COMPONENT_TEST build/component_test.o build/message.o
+tests: zmq_test.o timer_test.o message.o
+	# $(CC) -g -o bin/PORT_TEST build/port_test.o build/message.o
+	# $(CC) -g -o bin/TIMER_TEST build/timer_test.o build/message.o
+	# $(CC) -g -o bin/COMPONENT_TEST build/component_test.o build/message.o
+	$(CC) -g -o bin/ZMQ_TEST build/zmq_test.o build/message.o
 
 
 #TARGET TO COMPILE ONLY ABP SIMULATOR
-simulator: main_top.o message.o 
-	$(CC) -g -o bin/ABP build/main_top.o build/message.o 
+# simulator: main_top.o message.o 
+	# $(CC) -g -o bin/ABP build/main_top.o build/message.o 
 	
 #TARGET TO COMPILE EVERYTHING (ABP SIMULATOR + TESTS TOGETHER)
-all: simulator tests
+all: tests
 
 #CLEAN COMMANDS
 clean: 

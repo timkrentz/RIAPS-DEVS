@@ -17,6 +17,7 @@
 #include "../atomics/port.hpp"
 #include "../atomics/timer.hpp"
 #include "../atomics/component.hpp"
+#include "../atomics/zmq_context.hpp"
 
 //C++ libraries
 #include <iostream>
@@ -46,41 +47,31 @@ int main(){
     /****** Input Reader atomic models instantiation *******************/
     // const char * i_input_data_control = "../input_data/component_test_input.txt";
     // shared_ptr<dynamic::modeling::model> input_reader_con = dynamic::translate::make_dynamic_atomic_model<InputReader_RIAPSMsg, TIME, const char* >("input_reader_con" , move(i_input_data_control));
+    /*
+    Calibrate
+    */
 
-    shared_ptr<dynamic::modeling::model> timerPort1 = dynamic::translate::make_dynamic_atomic_model<Timer, TIME>("TimerPort1","intTimerTopic",1000);
+    // shared_ptr<dynamic::modeling::model> pubPort1 = dynamic::translate::make_dynamic_atomic_model<Port, TIME>("PubPort1","intTimerTopic",1000);
     vector<PortDescription_t> component1Ports;
-    component1Ports.push_back(PortDescription_t{"TimerHandler1","intTimerTopic","MyTopic",TIMER, 100});
+    component1Ports.push_back(PortDescription_t{"TimerHandler1","","intTimerTopic", TIMER, 150});
+    component1Ports.push_back(PortDescription_t("PubPort","intTimerTopic","MyTopic",PUB,23));
+    component1Ports.push_back(PortDescription_t("SubPort","MyTopic","",SUB,200));
+
     shared_ptr<dynamic::modeling::model> component1 = dynamic::translate::make_dynamic_atomic_model<Component, TIME>("component1",component1Ports);
-
-    vector<PortDescription_t> component2Ports;
-    component2Ports.push_back(PortDescription_t{"SubHandler","MyTopic","DONE",SUB,100});
-    shared_ptr<dynamic::modeling::model> component2 = dynamic::translate::make_dynamic_atomic_model<Component, TIME>("component2",component2Ports);
-
-    vector<PortDescription_t> component3Ports;
-    component3Ports.push_back(PortDescription_t{"SubHandler","MyTopic","DONE",SUB,200});
-    shared_ptr<dynamic::modeling::model> component3 = dynamic::translate::make_dynamic_atomic_model<Component, TIME>("component3",component3Ports);
-
-    shared_ptr<dynamic::modeling::model> timerPort2 = dynamic::translate::make_dynamic_atomic_model<Timer, TIME>("TimerPort2","intTimerTopic",1000);
-    vector<PortDescription_t> component4Ports;
-    component4Ports.push_back(PortDescription_t{"TimerHandler2","intTimerTopic","MyTopic",TIMER, 100});
-    shared_ptr<dynamic::modeling::model> component4 = dynamic::translate::make_dynamic_atomic_model<Component, TIME>("component4",component4Ports);
+    shared_ptr<dynamic::modeling::model> zmq1 = dynamic::translate::make_dynamic_atomic_model<ZMQContext,TIME>("zmq1",component1Ports,PRIO);
 
     /*******TOP MODEL********/
     dynamic::modeling::Ports iports_TOP = {};
     dynamic::modeling::Ports oports_TOP = {typeid(top_out)};
-    dynamic::modeling::Models submodels_TOP = {component1,timerPort1,timerPort2,component4,component2,component3};
+    dynamic::modeling::Models submodels_TOP = {component1,zmq1};
     dynamic::modeling::EICs eics_TOP = {};
     dynamic::modeling::EOCs eocs_TOP = {
-        dynamic::translate::make_EOC<Component_defs::compOut,top_out>("component2")
+        dynamic::translate::make_EOC<ZMQContext_defs::toNet,top_out>("zmq1")
     };
     dynamic::modeling::ICs ics_TOP = {
-        dynamic::translate::make_IC<Timer_defs::out,Component_defs::compIn>("TimerPort1","component1"),
-        dynamic::translate::make_IC<Timer_defs::out,Component_defs::compIn>("TimerPort2","component4"),
-        dynamic::translate::make_IC<Component_defs::compOut,Component_defs::compIn>("component1","component2"),
-        dynamic::translate::make_IC<Component_defs::compOut,Component_defs::compIn>("component1","component3"),
-        dynamic::translate::make_IC<Component_defs::compOut,Component_defs::compIn>("component4","component2"),
-        dynamic::translate::make_IC<Component_defs::compOut,Component_defs::compIn>("component4","component3")
-
+        dynamic::translate::make_IC<ZMQContext_defs::toComp,Component_defs::zmqIn>("zmq1","component1"),
+        dynamic::translate::make_IC<Component_defs::zmqOut,ZMQContext_defs::fromComp>("component1","zmq1"),
+        dynamic::translate::make_IC<Component_defs::poll,ZMQContext_defs::poll>("component1","zmq1"),
     };
     shared_ptr<dynamic::modeling::coupled<TIME>> TOP;
     TOP = make_shared<dynamic::modeling::coupled<TIME>>(
@@ -105,11 +96,12 @@ int main(){
     using log_messages=logger::logger<logger::logger_messages, dynamic::logger::formatter<TIME>, oss_sink_messages>;
     using global_time_mes=logger::logger<logger::logger_global_time, dynamic::logger::formatter<TIME>, oss_sink_messages>;
     using global_time_sta=logger::logger<logger::logger_global_time, dynamic::logger::formatter<TIME>, oss_sink_state>;
+    // using global_time_sta=logger::logger<logger::logger_global_time, dynamic::logger::formatter<TIME>, oss_sink_messages>;
 
     using logger_top=logger::multilogger<state, log_messages, global_time_mes, global_time_sta>;
 
     /************** Runner call ************************/ 
     dynamic::engine::runner<NDTime, logger_top> r(TOP, {0});
-    r.run_until(NDTime("00:00:05:000"));
+    r.run_until(NDTime("00:00:01:000"));
     return 0;
 }

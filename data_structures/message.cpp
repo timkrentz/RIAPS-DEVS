@@ -18,6 +18,17 @@ istream& operator>> (istream& is, Message_t& msg) {
   return is;
 }
 
+// ========== PortCMD_t =========================
+istream& operator>> (istream& is, PortCMD_t& msg) {
+    is >> msg.name;
+    is >> msg.cmd; 
+}
+
+ostream& operator<<(ostream& os, const PortCMD_t& msg) {
+    os << msg.name << "-" << msg.cmd;
+    return os;
+}
+
 // ============= RIAPSMsg_t ==========================
 istream& operator>> (istream& is, RIAPSMsg_t& msg) {
     is >> msg.topic;
@@ -27,5 +38,15 @@ istream& operator>> (istream& is, RIAPSMsg_t& msg) {
 
 ostream& operator<<(ostream& os, const RIAPSMsg_t& msg) {
     os << "On " << msg.topic << ": " << msg.val;
+    return os;
+}
+
+// ============= PollResult_t ==========================
+ostream& operator<<(ostream& os, const PollResult_t& msg) {
+    os << "Poll Result: {";
+    for (auto entry : msg) {
+        os << "PORT: " << entry.portName << " | ";
+    }
+    os << "}";
     return os;
 }
