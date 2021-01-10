@@ -70,4 +70,6 @@ typedef vector<ScheduleEntry_t> PollResult_t;
 
 ostream& operator<<(ostream& os, const PollResult_t& msg);
 
+istream& operator>>(istream& is, PollResult_t& msg);
+
 #endif // BOOST_SIMULATION_MESSAGE_HPP

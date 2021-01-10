@@ -14,10 +14,10 @@
 
 //Atomic model headers
 #include <cadmium/basic_model/pdevs/iestream.hpp> //Atomic model for inputs
-#include "../atomics/port.hpp"
-#include "../atomics/timer.hpp"
+// #include "../atomics/port.hpp"
+// #include "../atomics/timer.hpp"
 #include "../atomics/component.hpp"
-#include "../atomics/zmq_context.hpp"
+// #include "../atomics/zmq_context.hpp"
 
 //C++ libraries
 #include <iostream>
@@ -32,46 +32,52 @@ using TIME = NDTime;
 /***** Define input port for coupled models *****/
 
 /***** Define output ports for coupled model *****/
-struct top_out : public cadmium::out_port<RIAPSMsg_t>{};
+struct toPort : public cadmium::out_port<PortCMD_t>{};
+struct poll : public cadmium::out_port<int>{};
 
 template<typename T>
-class InputReader_RIAPSMsg : public iestream_input<int,T> {
+class InputReader_PollResult_t : public iestream_input<PollResult_t,T> {
     public:
-        InputReader_RIAPSMsg () = default;
-        InputReader_RIAPSMsg (const char* file_path) : iestream_input<RIAPSMsg_t,T>(file_path) {}
+        InputReader_PollResult_t () = default;
+        InputReader_PollResult_t (const char* file_path) : iestream_input<PollResult_t,T>(file_path) {}
 };
 
 int main(){
 
 
     /****** Input Reader atomic models instantiation *******************/
-    // const char * i_input_data_control = "../input_data/component_test_input.txt";
-    // shared_ptr<dynamic::modeling::model> input_reader_con = dynamic::translate::make_dynamic_atomic_model<InputReader_RIAPSMsg, TIME, const char* >("input_reader_con" , move(i_input_data_control));
+    const char * i_input_data_control = "input_data/component_input_test.txt";
+    shared_ptr<dynamic::modeling::model> input_reader = dynamic::translate::make_dynamic_atomic_model<InputReader_PollResult_t, TIME, const char* >("input_reader" , move(i_input_data_control));
     /*
     Calibrate
     */
 
-    // shared_ptr<dynamic::modeling::model> pubPort1 = dynamic::translate::make_dynamic_atomic_model<Port, TIME>("PubPort1","intTimerTopic",1000);
-    vector<PortDescription_t> component1Ports;
-    component1Ports.push_back(PortDescription_t{"TimerHandler1","","intTimerTopic", TIMER, 150});
-    component1Ports.push_back(PortDescription_t("PubPort","intTimerTopic","MyTopic",PUB,23));
-    component1Ports.push_back(PortDescription_t("SubPort","MyTopic","",SUB,200));
+    // Load model
+    PortDescription_t timer1Desc({"timer1","timerTopic1","timerAction1", TIMER, 100});
+    // PortDescription_t timer2Desc({"timer2","timerTopic2","timerAction2", TIMER, 300});
+    PortDescription_t subDesc1({"sub1","subTopic1","pub1", SUB, 50});
+    PortDescription_t subDesc2({"sub2","subTopic2","pub2", SUB, 60});
 
-    shared_ptr<dynamic::modeling::model> component1 = dynamic::translate::make_dynamic_atomic_model<Component, TIME>("component1",component1Ports);
-    shared_ptr<dynamic::modeling::model> zmq1 = dynamic::translate::make_dynamic_atomic_model<ZMQContext,TIME>("zmq1",component1Ports,PRIO);
+    vector<PortDescription_t> portList;
+    portList.push_back(timer1Desc);
+    // portList.push_back(timer2Desc);
+    portList.push_back(subDesc1);
+    portList.push_back(subDesc2);
+
+
+    shared_ptr<dynamic::modeling::model> component = dynamic::translate::make_dynamic_atomic_model<Component, TIME>("component",portList, PRIO);
 
     /*******TOP MODEL********/
     dynamic::modeling::Ports iports_TOP = {};
-    dynamic::modeling::Ports oports_TOP = {typeid(top_out)};
-    dynamic::modeling::Models submodels_TOP = {component1,zmq1};
+    dynamic::modeling::Ports oports_TOP = {typeid(toPort),typeid(poll)};
+    dynamic::modeling::Models submodels_TOP = {input_reader, component};
     dynamic::modeling::EICs eics_TOP = {};
     dynamic::modeling::EOCs eocs_TOP = {
-        dynamic::translate::make_EOC<ZMQContext_defs::toNet,top_out>("zmq1")
+        dynamic::translate::make_EOC<Component_defs::toPort,toPort>("component"),
+        dynamic::translate::make_EOC<Component_defs::poll,poll>("component"),
     };
     dynamic::modeling::ICs ics_TOP = {
-        dynamic::translate::make_IC<ZMQContext_defs::toComp,Component_defs::zmqIn>("zmq1","component1"),
-        dynamic::translate::make_IC<Component_defs::zmqOut,ZMQContext_defs::fromComp>("component1","zmq1"),
-        dynamic::translate::make_IC<Component_defs::poll,ZMQContext_defs::poll>("component1","zmq1"),
+        dynamic::translate::make_IC<iestream_input_defs<PollResult_t>::out,Component_defs::zmqIn>("input_reader","component"),
     };
     shared_ptr<dynamic::modeling::coupled<TIME>> TOP;
     TOP = make_shared<dynamic::modeling::coupled<TIME>>(

@@ -10,6 +10,7 @@
 #include <random>
 #include <queue>
 #include <unordered_map>
+#include <functional>
 
 #include "../data_structures/message.hpp"
 #include "../utils/const.h"
@@ -27,9 +28,9 @@ const int BATCH = 0;
 const int PRIO = 1;
 const int RR = 2;
 
-const int WAIT = 0;
-const int RUN_READY = 1;
-const int RUN_ACTIVE = 2;
+// const int WAIT = 0;
+const int RUN_READY = 2;
+const int RUN_ACTIVE = 3;
 
 //Port definition
 struct Component_defs{
@@ -58,11 +59,16 @@ template<typename TIME> class Component{
             // state.current = nullptr;
             schedPolicy = _policy;
             portList = _portList;
+
+            // int count = 0;
+            // for (auto& port : portList) _pM.insert(std::pair<string, int>({++count,port.name}));
         } 
 
         // List of Ports strictly ordered by priority
         vector<PortDescription_t> portList;
+        // unordered_map<string, int> _pM; //priority map
         list<ScheduleEntry_t> schedule;
+
         TIME nextInternal;
         int schedPolicy;
         // vector<SchedulerEntry_t> schedule;
@@ -104,6 +110,7 @@ template<typename TIME> class Component{
                 assert(msg.size() > 0 && "Poll response is empty!");
                 assert(state.state == WAIT && "Poll response came during running port!");
                 for (auto& entry : msg) scheduleMsg(entry);
+                // for (auto& entry : msg) schedule.push(entry);
                 state.state = RUN_READY;
                 state.pollActive = false;
             }
@@ -111,11 +118,16 @@ template<typename TIME> class Component{
             // Handle events from the ports
             for(const auto &msg : get_messages<typename Component_defs::fromPort>(mbs)){
                 if(get_messages<typename Component_defs::fromPort>(mbs).size()>1) assert(false && "more than one fromPort");
-                assert(state.state == RUN_ACTIVE && "Message from port despite not running one!")
+                assert(state.state == RUN_ACTIVE && "Message from port despite not running one!");
                 assert(msg.name == schedule.front().portName && "Message from inactive handler!");
+                // assert(msg.name == schedule.top().portName && "Message from inactive handler!");
                 schedule.pop_front();
+                // schedule.pop();
                 state.state = WAIT;
+
+                // CHECK ACTION!
             }
+            cout << "Schedule Length: " << schedule.size() << endl;
         }
 
         // confluence transition
@@ -158,36 +170,54 @@ template<typename TIME> class Component{
         }
 
         friend std::ostringstream& operator<<(std::ostringstream& os, const typename Component<TIME>::state_type& i) {
-            os << ": " << i.state;
+            os << ": ";
+            switch(i.state){
+                case WAIT:
+                    os << "WAIT";
+                    break;
+                case RUN_READY:
+                    os << "RUN_READY";
+                    break;
+                case RUN_ACTIVE:
+                    os << "RUN_ACTIVE";
+                    break;
+            }
             return os;
         }
 
     private:
 
-        void scheduleMsg(ScheduleEntry_t& entry){
+        void scheduleMsg(ScheduleEntry_t entry){
             switch (this->schedPolicy){
                 case BATCH:
                 case PRIO: {
                     auto schedIter = this->schedule.begin();
-                    auto currentHighest = this->portList.begin();
+                    auto prioMark = this->portList.begin();
+                    auto prioEnd = this->portList.end();
+                    while(prioMark != prioEnd){
+                        if (prioMark->name == entry.portName) break;
+                        ++prioMark;
+                    }
+                    assert(prioMark != prioEnd && "prioMark pointing out of list!");
                     for ( ; ; ){
                         // If we're at the end, just stick it in
                         if (schedIter == this->schedule.end()) break;
 
-                        // Is entry priority the highest?
-                        if (entry.portName == *currentHighest.name) { //if it is...
-                            while (*schedIter.portName == entry.portName && schedIter != this->schedule.end()){
-                                schedIter++;
+                        bool found = false;
+
+                        // Am I higher than the current?
+                        auto m = prioMark;
+                        m++;
+                        for ( ; m != prioEnd; m++){
+                            if (m->name == schedIter->portName){  //YES
+                                found = true;
+                                break;
                             }
-                            break;
                         }
-                        
-                        // Check next highest priority
-                        currentHighest++;
-                        if (currentHighest == this->portList.end()) {
-                            schedIter = this->schedule.end();
-                            break;
-                        }
+
+                        if (found) break;
+
+                        schedIter++;
                     }
                     this->schedule.insert(schedIter,entry);
                     break;
@@ -197,5 +227,5 @@ template<typename TIME> class Component{
                     break;
             }
         }
-
+};
 #endif // __COMPONENT_HPP__

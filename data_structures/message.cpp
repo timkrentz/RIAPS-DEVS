@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <iterator>
 
 #include "message.hpp"
 
@@ -49,4 +50,19 @@ ostream& operator<<(ostream& os, const PollResult_t& msg) {
     }
     os << "}";
     return os;
+}
+
+istream& operator>>(istream& is, PollResult_t& msg) {
+    std::string tmp;
+    is >> tmp;
+    assert(tmp == "|" && "Error parsing PollResult stream!");
+    for (;;) {
+        std::string name;
+        is >> name;
+        if (name == "|") break;
+        RIAPSMsg_t temp;
+        is >> temp;
+        msg.push_back(ScheduleEntry_t({name,temp}));
+    }
+    return is;
 }

@@ -1,0 +1,12 @@
+00:00:00:000
+State for model input_reader is next time: 00:00:00:000
+State for model component is : WAIT
+00:00:00:000
+State for model input_reader is next time: 00:00:00:100
+State for model component is : WAIT
+00:00:00:100
+State for model input_reader is next time: inf
+State for model component is : RUN_READY
+00:00:00:100
+State for model input_reader is next time: inf
+State for model component is : RUN_ACTIVE
