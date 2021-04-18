@@ -43,8 +43,8 @@ struct PortDescription_t {
     string name;
     string topic; // Topic that the port is TRIGGERED by
     string action; // Port (name) that send a message during the Port's handler
-    int type;
-    int duty;
+    int type; // ZMQ Type: TIMER, PUB, SUB, etc...
+    int duty; // Port Handler's "consumed" time, or 
 };
 
 

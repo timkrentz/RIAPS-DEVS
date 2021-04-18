@@ -42,25 +42,31 @@ class InputReader_PollResult_t : public iestream_input<PollResult_t,T> {
         InputReader_PollResult_t (const char* file_path) : iestream_input<PollResult_t,T>(file_path) {}
 };
 
+template<typename T>
+class InputReader_PortCMD_t : public iestream_input<PortCMD_t,T> {
+    public:
+        InputReader_PortCMD_t () = default;
+        InputReader_PortCMD_t (const char* file_path) : iestream_input<PortCMD_t,T>(file_path) {}
+};
+
 int main(){
 
 
     /****** Input Reader atomic models instantiation *******************/
     const char * i_input_data_control = "input_data/component_input_test.txt";
     shared_ptr<dynamic::modeling::model> input_reader = dynamic::translate::make_dynamic_atomic_model<InputReader_PollResult_t, TIME, const char* >("input_reader" , move(i_input_data_control));
+
+    const char * i_input_data_ports = "input_data/component_input_test_ports.txt";
+    shared_ptr<dynamic::modeling::model> input_reader_ports = dynamic::translate::make_dynamic_atomic_model<InputReader_PortCMD_t, TIME, const char* >("input_reader_ports" , move(i_input_data_ports));
     /*
     Calibrate
     */
 
     // Load model
-    PortDescription_t timer1Desc({"timer1","timerTopic1","timerAction1", TIMER, 100});
-    // PortDescription_t timer2Desc({"timer2","timerTopic2","timerAction2", TIMER, 300});
     PortDescription_t subDesc1({"sub1","subTopic1","pub1", SUB, 50});
-    PortDescription_t subDesc2({"sub2","subTopic2","pub2", SUB, 60});
+    PortDescription_t subDesc2({"sub2","subTopic2","pub2", SUB, 100});
 
     vector<PortDescription_t> portList;
-    portList.push_back(timer1Desc);
-    // portList.push_back(timer2Desc);
     portList.push_back(subDesc1);
     portList.push_back(subDesc2);
 
@@ -70,7 +76,7 @@ int main(){
     /*******TOP MODEL********/
     dynamic::modeling::Ports iports_TOP = {};
     dynamic::modeling::Ports oports_TOP = {typeid(toPort),typeid(poll)};
-    dynamic::modeling::Models submodels_TOP = {input_reader, component};
+    dynamic::modeling::Models submodels_TOP = {input_reader, input_reader_ports, component};
     dynamic::modeling::EICs eics_TOP = {};
     dynamic::modeling::EOCs eocs_TOP = {
         dynamic::translate::make_EOC<Component_defs::toPort,toPort>("component"),
@@ -78,6 +84,7 @@ int main(){
     };
     dynamic::modeling::ICs ics_TOP = {
         dynamic::translate::make_IC<iestream_input_defs<PollResult_t>::out,Component_defs::zmqIn>("input_reader","component"),
+        dynamic::translate::make_IC<iestream_input_defs<PortCMD_t>::out,Component_defs::fromPort>("input_reader_ports","component"),
     };
     shared_ptr<dynamic::modeling::coupled<TIME>> TOP;
     TOP = make_shared<dynamic::modeling::coupled<TIME>>(

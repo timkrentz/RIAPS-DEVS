@@ -88,10 +88,11 @@ int main(){
             return out_messages;
         }
     };
-    static ofstream out_state("simulation_results/zmq_test_output_state.txt");
+    // static ofstream out_state("simulation_results/zmq_test_output_state.txt");
     struct oss_sink_state{
         static ostream& sink(){          
-            return out_state;
+            // return out_state;
+            return out_messages;
         }
     };
     
@@ -100,7 +101,8 @@ int main(){
     using global_time_mes=logger::logger<logger::logger_global_time, dynamic::logger::formatter<TIME>, oss_sink_messages>;
     using global_time_sta=logger::logger<logger::logger_global_time, dynamic::logger::formatter<TIME>, oss_sink_state>;
 
-    using logger_top=logger::multilogger<state, log_messages, global_time_mes, global_time_sta>;
+    // using logger_top=logger::multilogger<state, log_messages, global_time_mes, global_time_sta>;
+    using logger_top=logger::multilogger<state, log_messages, global_time_mes>;
 
     /************** Runner call ************************/ 
     dynamic::engine::runner<NDTime, logger_top> r(TOP, {0});

@@ -36,7 +36,6 @@ message.o: data_structures/message.cpp
 
 component_test.o: test/component_test.cpp
 	$(CC) -g -c $(CFLAGS) $(INCLUDECADMIUM) $(INCLUDEDESTIMES) test/component_test.cpp -o build/component_test.o
-
 # tests: main_subnet_test.o main_sender_test.o main_receiver_test.o port_test.o message.o
 tests: component_test.o message.o
 	# $(CC) -g -o bin/PORT_TEST build/port_test.o build/message.o

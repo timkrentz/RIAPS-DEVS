@@ -52,17 +52,13 @@ template<typename TIME> class ZMQContext{
     public:
         ZMQContext() {
             nextTimerEvent = std::numeric_limits<TIME>::infinity();
-            state.state = IDLE;
             state.pollWaiting = false;
             state.pollAvailable = false;
-            state.current=nullptr;
         }
         ZMQContext(vector<PortDescription_t> _portList) {
             nextTimerEvent = std::numeric_limits<TIME>::infinity();
-            state.state = RUN;
             state.pollWaiting = false;
             state.pollAvailable = false;
-            state.current = nullptr;
             portList = _portList;
             isPolling = true;
 
@@ -102,10 +98,8 @@ template<typename TIME> class ZMQContext{
 
         // state definition
         struct state_type{
-            int state;
             bool pollWaiting;
             bool pollAvailable;
-            PortDescription_t* current;
         }; 
         state_type state;
         // ports definition
@@ -151,16 +145,6 @@ template<typename TIME> class ZMQContext{
 
             // Check if any messages are available
             state.pollAvailable = isMsgAvailable();
-
-            
-            // //Update timers
-            // for (auto& timer : timerList) {
-            //     timer.remaining = timer.remaining - e;
-            //     if(timer.remaining < TIME()){
-            //         cout << "Timer " << timer.name << " didn't fire!";
-            //         exit(1);
-            //     }
-            // }
 
             // Respond to poll requests
             assert(get_messages<typename ZMQContext_defs::poll>(mbs).size() <= 1 && "More than 1 poll event!");

@@ -11,6 +11,7 @@
 #include <queue>
 #include <unordered_map>
 #include <functional>
+#include <list>
 
 #include "../data_structures/message.hpp"
 #include "../utils/const.h"
@@ -19,7 +20,7 @@ using namespace cadmium;
 using namespace std;
 
 // struct SchedulerEntry_t : public PortDescription_t {
-//     using PortDescription_t::PortDescription_t;
+//     using PortDescription_t::PortDescriptioun_t;
 //     SchedulerEntry_t(string _name, string _topic, string _action, int _type, int _duty, int _state) : PortDescription_t(_name, _topic, _action, _type, _duty), state(_state){}
 //     int state;
 // };
@@ -28,9 +29,6 @@ const int BATCH = 0;
 const int PRIO = 1;
 const int RR = 2;
 
-// const int WAIT = 0;
-const int RUN_READY = 2;
-const int RUN_ACTIVE = 3;
 
 //Port definition
 struct Component_defs{
@@ -47,15 +45,15 @@ template<typename TIME> class Component{
     public:
         Component() {
             nextInternal = std::numeric_limits<TIME>::infinity();
-            state.state = WAIT;
-            state.pollActive = false;
+            state.poller = FIRE;
+            state.port = IDLE;
             // state.current=nullptr;
             schedPolicy = BATCH;
         }
         Component(vector<PortDescription_t> _portList, int _policy) {
             nextInternal = std::numeric_limits<TIME>::infinity();
-            state.state = WAIT;
-            state.pollActive = false;
+            state.poller = FIRE;
+            state.port = IDLE;
             // state.current = nullptr;
             schedPolicy = _policy;
             portList = _portList;
@@ -71,14 +69,11 @@ template<typename TIME> class Component{
 
         TIME nextInternal;
         int schedPolicy;
-        // vector<SchedulerEntry_t> schedule;
-
 
         // state definition
         struct state_type{
-            int state;
-            bool pollActive;
-            // SchedulerEntry_t* current;
+            int port;
+            int poller;
         }; 
         state_type state;
 
@@ -91,40 +86,42 @@ template<typename TIME> class Component{
         // internal transition
         void internal_transition() {
             cout<<"COMPONENT INTERNAL"<<endl;
-            if (state.state == WAIT) {
-                if (state.pollActive == false) {
-                    state.pollActive = true;
-                }
-            } else if (state.state == RUN_READY) {
-                state.state = RUN_ACTIVE;
+            if (state.port == FIRE) { // Just started a handler
+                schedule.pop_front();
+                state.port = RUN;
+            }
+            if (state.poller == FIRE) {
+                state.poller = WAIT;
             }
         }
 
         // external transition
         void external_transition(TIME e, typename make_message_bags<input_ports>::type mbs) { 
-            cout<<"COMPONENT EXTERNAL"<<endl;
+            cout<<"COMPONENT EXTERNAL"<< endl;
 
-            // Handle poll response (should never be empty)
-            assert(get_messages<typename Component_defs::zmqIn>(mbs).size() <= 1 && "Two vectors in poll response!");
+            // Handle ZMQ Poll Response
             for(const auto &msg : get_messages<typename Component_defs::zmqIn>(mbs)){
                 assert(msg.size() > 0 && "Poll response is empty!");
-                assert(state.state == WAIT && "Poll response came during running port!");
+                assert(state.poller == WAIT && "Poll response recvd without polling");
+                assert(state.port != RUN && "Poll response recvd while running port");
                 for (auto& entry : msg) scheduleMsg(entry);
-                // for (auto& entry : msg) schedule.push(entry);
-                state.state = RUN_READY;
-                state.pollActive = false;
+                state.poller = IDLE;
+                state.port = RUN;
             }
 
             // Handle events from the ports
             for(const auto &msg : get_messages<typename Component_defs::fromPort>(mbs)){
-                if(get_messages<typename Component_defs::fromPort>(mbs).size()>1) assert(false && "more than one fromPort");
-                assert(state.state == RUN_ACTIVE && "Message from port despite not running one!");
-                assert(msg.name == schedule.front().portName && "Message from inactive handler!");
-                // assert(msg.name == schedule.top().portName && "Message from inactive handler!");
-                schedule.pop_front();
-                // schedule.pop();
-                state.state = WAIT;
-
+                assert(get_messages<typename Component_defs::fromPort>(mbs).size() == 1 
+                    && "More than one fromPort");
+                assert(state.port == RUN && "Message from port despite not in RUN!");
+                assert(state.poller == IDLE && "Message from port despite idle poller");
+                if (schedule.size() > 0) {
+                    assert(state.port != FIRE && "Reading schedule while firing port");
+                    state.port = FIRE;
+                } else {
+                    state.port = IDLE;
+                    state.poller = FIRE;
+                }
                 // CHECK ACTION!
             }
             cout << "Schedule Length: " << schedule.size() << endl;
@@ -141,46 +138,51 @@ template<typename TIME> class Component{
         typename make_message_bags<output_ports>::type output() const {
             cout<<"COMPONENT OUTPUT"<<endl;
             typename make_message_bags<output_ports>::type bags;
-            if (state.state == RUN_READY) {
-                PortCMD_t out = {schedule.front().portName,RUN};
-                get_messages<typename Component_defs::toPort>(bags).push_back(out);
-            } else if (state.state == WAIT) {
-                if (state.pollActive == false){
-                    get_messages<typename Component_defs::poll>(bags).push_back(1);
-                }
+            if (state.port == FIRE) {
+                // PortCMD_t out = {schedule.front().portName,RUN};
+                assert(schedule.size() > 0 && "TRIED FIRING FROM EMPTY SCHEDULE"); 
+                auto msg = PortCMD_t(schedule.front().portName, RUN);
+                get_messages<typename Component_defs::toPort>(bags).push_back(msg);
+            }
+            if (state.poller == FIRE) {
+                assert(state.port != RUN && "TRIED POLLING WHILE RUNNING PORT");
+                get_messages<typename Component_defs::poll>(bags).push_back(1);
             }
             return bags;
         }
 
         // time_advance function
         TIME time_advance() const {
-            cout<<"COMPONENT TIME ADVANCE"<<endl;
-            switch (state.state) {
-                case WAIT:
-                    if (!state.pollActive) return TIME();
-                    return std::numeric_limits<TIME>::infinity();
-                case RUN_READY:
-                    return TIME();
-                case RUN_ACTIVE:
-                    return std::numeric_limits<TIME>::infinity();
-                default:
-                    assert(false && "Unexpected state value!");
-                    break;
+            cout<<"COMPONENT TIME ADVANCE: STATE "<< state.poller << " " << state.port << endl;
+            if ((state.poller == FIRE) != (state.port == FIRE)) {
+                return TIME();
             }
+            assert(state.poller != FIRE && state.port != FIRE &&
+                "FIRING POLLER AND PORT AT SAME TIME");
+            assert(!(state.poller == WAIT && state.port == RUN) && 
+                "POLLER IS WAITING DESPITE PORT RUNNING");
+            
+            return std::numeric_limits<TIME>::infinity();
         }
 
         friend std::ostringstream& operator<<(std::ostringstream& os, const typename Component<TIME>::state_type& i) {
-            os << ": ";
-            switch(i.state){
-                case WAIT:
-                    os << "WAIT";
-                    break;
-                case RUN_READY:
-                    os << "RUN_READY";
-                    break;
-                case RUN_ACTIVE:
-                    os << "RUN_ACTIVE";
-                    break;
+            os << ": PORT_";
+            switch (i.port){
+                case IDLE: os << "IDLE";
+                break;
+                case RUN: os << "RUN";
+                break;
+                case FIRE: os << "FIRE";
+                break;
+            }
+            os << " POLLER_";
+            switch(i.poller){
+                case IDLE: os << "IDLE";
+                break;
+                case WAIT: os << "WAIT";
+                break;
+                case FIRE: os << "FIRE";
+                break;
             }
             return os;
         }
