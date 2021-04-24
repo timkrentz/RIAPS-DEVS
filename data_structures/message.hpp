@@ -38,16 +38,22 @@ istream& operator>> (istream& is, PortCMD_t& msg);
 
 ostream& operator<<(ostream& os, const PortCMD_t& msg);
 
+
+/*******************************************/
+/*********** PortDescription_t *************/
+/*******************************************/
 struct PortDescription_t {
     PortDescription_t(string _name, string _topic, string _action, int _type, int _duty) : name(_name), topic(_topic), action(_action), type(_type), duty(_duty){}
     string name;
-    string topic; // Topic that the port is TRIGGERED by
-    string action; // Port (name) that send a message during the Port's handler
+    string topic; // Topic that the port IS TRIGGERED BY
+    string action; // topic that the port TRIGGERS
     int type; // ZMQ Type: TIMER, PUB, SUB, etc...
-    int duty; // Port Handler's "consumed" time, or 
+    int duty; // Port Handler's "consumed" time, or timer period, in ms
 };
 
-
+/*******************************************/
+/************** RIAPSMsg_t *****************/
+/*******************************************/
 struct RIAPSMsg_t{
     RIAPSMsg_t(){}
     RIAPSMsg_t(string _topic, int _val) : topic(_topic), val(_val){}
@@ -59,6 +65,11 @@ istream& operator>> (istream& is, RIAPSMsg_t& msg);
 
 ostream& operator<<(ostream& os, const RIAPSMsg_t& msg);
 
+
+/*******************************************/
+/*************** PollResult_t **************/
+/*************** ScheduleEntry_t ***********/
+/*******************************************/
 struct ScheduleEntry_t{
     ScheduleEntry_t(){}
     ScheduleEntry_t(string _portName, RIAPSMsg_t _msg) : portName(_portName), msg(_msg){} 

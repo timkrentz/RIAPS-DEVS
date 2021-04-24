@@ -10,4 +10,7 @@ const int TIMER = 0;
 const int PUB = 1;
 const int SUB = 2;
 
+const int RECV = 0;
+const int SEND = 1;
+
 #endif //__CONST_HPP__

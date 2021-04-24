@@ -34,14 +34,25 @@ message.o: data_structures/message.cpp
 # zmq_test.o: test/zmq_test.cpp
 	# $(CC) -g -c $(CFLAGS) $(INCLUDECADMIUM) $(INCLUDEDESTIMES) test/zmq_test.cpp -o build/zmq_test.o
 
-component_test.o: test/component_test.cpp
-	$(CC) -g -c $(CFLAGS) $(INCLUDECADMIUM) $(INCLUDEDESTIMES) test/component_test.cpp -o build/component_test.o
+# component_test.o: test/component_test.cpp
+	# $(CC) -g -c $(CFLAGS) $(INCLUDECADMIUM) $(INCLUDEDESTIMES) test/component_test.cpp -o build/component_test.o
+
+integration_test.o: test/integration_test.cpp
+	$(CC) -g -c $(CFLAGS) $(INCLUDECADMIUM) $(INCLUDEDESTIMES) test/integration_test.cpp -o build/integration_test.o
+
+# ethernet_test.o: test/ethernet_test.cpp
+	# $(CC) -g -c $(CFLAGS) $(INCLUDECADMIUM) $(INCLUDEDESTIMES) test/ethernet_test.cpp -o build/ethernet_test.o
+
+
+
 # tests: main_subnet_test.o main_sender_test.o main_receiver_test.o port_test.o message.o
-tests: component_test.o message.o
+tests: integration_test.o message.o
 	# $(CC) -g -o bin/PORT_TEST build/port_test.o build/message.o
 	# $(CC) -g -o bin/TIMER_TEST build/timer_test.o build/message.o
 	# $(CC) -g -o bin/ZMQ_TEST build/zmq_test.o build/message.o
-	$(CC) -g -o bin/COMPONENT_TEST build/component_test.o build/message.o
+	# $(CC) -g -o bin/COMPONENT_TEST build/component_test.o build/message.o
+	$(CC) -g -o bin/INTEGRATION_TEST build/integration_test.o build/message.o
+	# $(CC) -g -o bin/ETHERNET_TEST build/ethernet_test.o build/message.o
 
 
 #TARGET TO COMPILE ONLY ABP SIMULATOR

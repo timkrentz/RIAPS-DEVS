@@ -64,7 +64,7 @@ template<typename TIME> class Component{
 
         // List of Ports strictly ordered by priority
         vector<PortDescription_t> portList;
-        // unordered_map<string, int> _pM; //priority map
+        // Ordered linked list of ports to fire
         list<ScheduleEntry_t> schedule;
 
         TIME nextInternal;
@@ -106,7 +106,7 @@ template<typename TIME> class Component{
                 assert(state.port != RUN && "Poll response recvd while running port");
                 for (auto& entry : msg) scheduleMsg(entry);
                 state.poller = IDLE;
-                state.port = RUN;
+                state.port = FIRE;
             }
 
             // Handle events from the ports

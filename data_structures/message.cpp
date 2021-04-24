@@ -22,7 +22,8 @@ istream& operator>> (istream& is, Message_t& msg) {
 // ========== PortCMD_t =========================
 istream& operator>> (istream& is, PortCMD_t& msg) {
     is >> msg.name;
-    is >> msg.cmd; 
+    is >> msg.cmd;
+    return is;
 }
 
 ostream& operator<<(ostream& os, const PortCMD_t& msg) {
