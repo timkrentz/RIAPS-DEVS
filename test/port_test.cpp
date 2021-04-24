@@ -25,63 +25,50 @@ using namespace cadmium::basic_models::pdevs;
 
 using TIME = NDTime;
 
-/***** Define input port for coupled models *****/
-// struct inp_controll : public cadmium::in_port<int>{};
-// struct inp_ack : public cadmium::in_port<Message_t>{};
-
-/***** Define output ports for coupled model *****/
-// struct outp_ack : public cadmium::out_port<int>{};
-// struct outp_data : public cadmium::out_port<Message_t>{};
-// struct outp_pack : public cadmium::out_port<int>{};
-struct top_out : public cadmium::out_port<RIAPSMsg_t>{};
-
-/****** Input Reader atomic model declaration *******************/
-// template<typename T>
-// class InputReader_Message_t : public iestream_input<Message_t,T> {
-//     public:
-//         InputReader_Message_t () = default;
-//         InputReader_Message_t (const char* file_path) : iestream_input<Message_t,T>(file_path) {}
-// };
+struct top_out : public cadmium::out_port<PortCMD_t>{};
+struct top_out_read : public cadmium::out_port<PortCMD_t>{};
+struct top_out_send : public cadmium::out_port<RIAPSMsg_t>{};
 
 template<typename T>
-class InputReader_Int : public iestream_input<int,T> {
+class InputReader_Int : public iestream_input<PortCMD_t,T> {
     public:
         InputReader_Int () = default;
-        InputReader_Int (const char* file_path) : iestream_input<int,T>(file_path) {}
+        InputReader_Int (const char* file_path) : iestream_input<PortCMD_t,T>(file_path) {}
+};
+
+template<typename T>
+class InputReader_RIAPSMsg_t : public iestream_input<RIAPSMsg_t,T> {
+    public:
+        InputReader_RIAPSMsg_t () = default;
+        InputReader_RIAPSMsg_t (const char* file_path) : iestream_input<RIAPSMsg_t,T>(file_path) {}
 };
 
 int main(){
 
 
     /****** Input Reader atomic models instantiation *******************/
-    const char * i_input_data_control = "../input_data/port_test_input.txt";
+    const char * i_input_data_control = "input_data/port_test_input.txt";
     shared_ptr<dynamic::modeling::model> input_reader_con = dynamic::translate::make_dynamic_atomic_model<InputReader_Int, TIME, const char* >("input_reader_con" , move(i_input_data_control));
-
-    // const char * i_input_data_ack = "../input_data/sender_input_test_ack_In.txt";
-    // shared_ptr<dynamic::modeling::model> input_reader_ack = dynamic::translate::make_dynamic_atomic_model<InputReader_Message_t , TIME, const char* >("input_reader_ack" , move(i_input_data_ack));
-
+    const char * i_input_data_msgs = "input_data/port_test_msg_input.txt";
+    shared_ptr<dynamic::modeling::model> input_reader_msgs = dynamic::translate::make_dynamic_atomic_model<InputReader_RIAPSMsg_t, TIME, const char* >("input_reader_msgs" , move(i_input_data_msgs));
 
     /****** Sender atomic model instantiation *******************/
-    // shared_ptr<dynamic::modeling::model> sender1 = dynamic::translate::make_dynamic_atomic_model<Sender, TIME>("sender1");
-    shared_ptr<dynamic::modeling::model> port1 = dynamic::translate::make_dynamic_atomic_model<Port, TIME>("port1");
+    PortDescription_t port1Desc("port1","MyPort","Topic2",SUB,100);
+    shared_ptr<dynamic::modeling::model> port1 = dynamic::translate::make_dynamic_atomic_model<Port, TIME>("port1",port1Desc);
 
     /*******TOP MODEL********/
     dynamic::modeling::Ports iports_TOP = {};
-    // dynamic::modeling::Ports oports_TOP = {typeid(outp_data),typeid(outp_pack),typeid(outp_ack)};
-    dynamic::modeling::Ports oports_TOP = {typeid(top_out)};
-    // dynamic::modeling::Models submodels_TOP = {input_reader_con, input_reader_ack, sender1};
-    dynamic::modeling::Models submodels_TOP = {input_reader_con, port1};
+    dynamic::modeling::Ports oports_TOP = {typeid(top_out), typeid(top_out_read), typeid(top_out_send)};
+    dynamic::modeling::Models submodels_TOP = {input_reader_con, input_reader_msgs, port1};
     dynamic::modeling::EICs eics_TOP = {};
     dynamic::modeling::EOCs eocs_TOP = {
-        // dynamic::translate::make_EOC<Sender_defs::packetSentOut,outp_pack>("sender1"),
-        // dynamic::translate::make_EOC<Sender_defs::ackReceivedOut,outp_ack>("sender1"),
-        // dynamic::translate::make_EOC<Sender_defs::dataOut,outp_data>("sender1")
-        dynamic::translate::make_EOC<Port_defs::out,top_out>("port1")
+        dynamic::translate::make_EOC<Port_defs::out,top_out>("port1"),
+        dynamic::translate::make_EOC<Port_defs::zmqRead,top_out_read>("port1"),
+        dynamic::translate::make_EOC<Port_defs::zmqSend,top_out_send>("port1"),
     };
     dynamic::modeling::ICs ics_TOP = {
-        // dynamic::translate::make_IC<iestream_input_defs<int>::out,Sender_defs::controlIn>("input_reader_con","sender1"),
-        dynamic::translate::make_IC<iestream_input_defs<int>::out,Port_defs::in>("input_reader_con","port1"),
-        // dynamic::translate::make_IC<iestream_input_defs<Message_t>::out,Sender_defs::ackIn>("input_reader_ack","sender1")
+        dynamic::translate::make_IC<iestream_input_defs<PortCMD_t>::out,Port_defs::in>("input_reader_con","port1"),
+        dynamic::translate::make_IC<iestream_input_defs<RIAPSMsg_t>::out,Port_defs::zmqRecv>("input_reader_msgs","port1"),
     };
     shared_ptr<dynamic::modeling::coupled<TIME>> TOP;
     TOP = make_shared<dynamic::modeling::coupled<TIME>>(
@@ -90,14 +77,14 @@ int main(){
 
     /*************** Loggers *******************/
     // static ofstream out_messages("../simulation_results/sender_test_output_messages.txt");
-    static ofstream out_messages("../simulation_results/port_test_output_messages.txt");
+    static ofstream out_messages("simulation_results/port_test_output_messages.txt");
     struct oss_sink_messages{
         static ostream& sink(){          
             return out_messages;
         }
     };
     // static ofstream out_state("../simulation_results/sender_test_output_state.txt");
-    static ofstream out_state("../simulation_results/port_test_output_state.txt");
+    static ofstream out_state("simulation_results/port_test_output_state.txt");
     struct oss_sink_state{
         static ostream& sink(){          
             return out_state;
@@ -113,6 +100,6 @@ int main(){
 
     /************** Runner call ************************/ 
     dynamic::engine::runner<NDTime, logger_top> r(TOP, {0});
-    r.run_until(NDTime("04:00:00:000"));
+    r.run_until(NDTime("00:01:00:000"));
     return 0;
 }

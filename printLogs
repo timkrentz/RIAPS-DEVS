@@ -1,0 +1,84 @@
+#!/usr/bin/python3
+import argparse
+from os.path import join
+from os import getcwd
+import re
+
+class MyReader(object):
+    def __init__(self, logfile):
+        self.logfile = logfile
+        self.curr = None
+        self.next = None
+        self.done = False
+        self.lines = []
+
+    def __enter__(self):
+        self.fd = open(join(getcwd(),"simulation_results",self.logfile),'r')
+
+    def __exit__(self, *_):
+        self.fd.close()
+
+    def nextTime(self, ):
+        self.lines = []
+        if self.done:
+            return None
+        if self.curr is None:
+            self.curr = self.fd.readline()[:-1]
+        else:
+            self.curr = self.next
+        while True:
+            l = self.fd.readline()
+            if l == '': #If file has nothing left
+                self.next = None
+                self.done = True
+                break
+            if cadmiumTimeRegex.fullmatch(l):
+                self.next = l[:-1]
+                break
+            else:
+                self.lines.append(l[:-1])
+        return self.curr
+
+    def nextLine(self, ):
+        if len(self.lines) > 1:
+            front, self.lines = self.lines[0],self.lines[1:]
+            return front
+        if len(self.lines) == 1:
+            return self.lines.pop()
+        return None
+            
+cadmiumTimeRegex = re.compile("\d\d:\d\d:\d\d:\d\d\d\n")
+
+parser = argparse.ArgumentParser(description='Interleave Cadmium Outputs.')
+parser.add_argument('test', type=str, help='name of test to read')
+args = parser.parse_args()
+
+# msgs = MyReader("component_test_output_messages.txt")
+msgs = MyReader(args.test+"_test_output_messages.txt")
+# states = MyReader("component_test_output_state.txt")
+states = MyReader(args.test+"_test_output_state.txt")
+
+with msgs, states:
+    while True:
+        ts_m = msgs.nextTime()
+        ts_s = states.nextTime()
+        assert (ts_m == ts_s),"Different timestamps!"
+
+        if ts_m is None:
+            break
+        
+        print("AT TIMESTAMP ",ts_m)
+        # msgIter = iter(msgs.lines)
+        # stateIter = iter(states.lines)
+
+        msg = msgs.nextLine()
+        for state in states.lines:
+            while msg:
+                comp = msg.split()[-1]
+                if comp in state.split()[3]:
+                    print("Message ",msg)
+                    msg = msgs.nextLine()
+                else:
+                    break
+            print("State ",state)
+        print("")
