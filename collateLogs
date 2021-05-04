@@ -81,4 +81,3 @@ with msgs, states:
                 else:
                     break
             print("State ",state)
-        print("")

@@ -85,6 +85,7 @@ int main(){
         dynamic::translate::make_IC<Component_defs::poll, ZMQContext_defs::poll>("component", "zmq"),
         dynamic::translate::make_IC<ZMQContext_defs::toComp, Component_defs::zmqIn>("zmq","component"),
         dynamic::translate::make_IC<ZMQContext_defs::toNet, Ethernet_defs::in>("zmq","ethernet"),
+        
 
     };
 
