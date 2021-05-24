@@ -6,6 +6,10 @@
 #include <iterator>
 
 #include "message.hpp"
+#include "../externals/nlohmann/json.hpp"
+
+
+using json = nlohmann::json;
 
 // ========== Message_t =========================
 ostream& operator<<(ostream& os, const Message_t& msg) {
@@ -30,6 +34,7 @@ ostream& operator<<(ostream& os, const PortCMD_t& msg) {
     os << msg.name << "-" << msg.cmd;
     return os;
 }
+
 
 // ============= RIAPSMsg_t ==========================
 istream& operator>> (istream& is, RIAPSMsg_t& msg) {

@@ -29,12 +29,12 @@ template<typename TIME> class Timer{
             nextInternal = std::numeric_limits<TIME>::infinity();
         }
         Timer(PortDescription_t _portDescription) {
-            topic = _portDescription.topic;
+            action = _portDescription.action;
             period = _portDescription.duty;
             state.count = 0;
             nextInternal = TIME({0,0,period/1000,period%1000});
         }
-        string topic;
+        string action;
         int period;
         int counter = 0;
         TIME nextInternal;
@@ -67,7 +67,7 @@ template<typename TIME> class Timer{
         typename make_message_bags<output_ports>::type output() const {
             typename make_message_bags<output_ports>::type bags;
             RIAPSMsg_t out;
-            out = {topic,counter};
+            out = {action,counter};
             get_messages<typename Timer_defs::out>(bags).push_back(out);
             return bags;
         }

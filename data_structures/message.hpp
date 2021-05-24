@@ -5,8 +5,10 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "../externals/nlohmann/json.hpp"
 
 using namespace std;
+using json = nlohmann::json;
 
 /*******************************************/
 /**************** Message_t ****************/
@@ -43,6 +45,7 @@ ostream& operator<<(ostream& os, const PortCMD_t& msg);
 /*********** PortDescription_t *************/
 /*******************************************/
 struct PortDescription_t {
+    PortDescription_t(json obj) : name(obj["name"]), topic(obj["topic"]), action(obj["action"]), type(obj["type"]), duty(obj["duty"]){}
     PortDescription_t(string _name, string _topic, string _action, int _type, int _duty) : name(_name), topic(_topic), action(_action), type(_type), duty(_duty){}
     string name;
     string topic; // Topic that the port IS TRIGGERED BY
@@ -61,7 +64,7 @@ struct RIAPSMsg_t{
     int val;
 };
 
-istream& operator>> (istream& is, RIAPSMsg_t& msg);
+istream& operator>>(istream& is, RIAPSMsg_t& msg);
 
 ostream& operator<<(ostream& os, const RIAPSMsg_t& msg);
 

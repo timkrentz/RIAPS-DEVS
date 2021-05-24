@@ -1,0 +1,51 @@
+# Define module BUILD FLAGS
+#       Each module has PRIVATE and PUBLIC flags
+#       PRIVATE: flags only needed internally, just to get to a binary
+#       PUBLIC: flags needed externally as well
+# Define module DEPENDENCIES
+# KEEP OUT of other module's internals
+
+# Declare module with ADD_LIBRARY or ADD_EXECUTABLE
+# Declare build flags with TARGET_XXX
+# Declare dependencies with TARGET_LINK_LIBRARIES
+#       works for both other modules/projects and paths to libs
+# Always declare with either PUBLIC or PRIVATE
+
+# Don't use macros that affect all targets
+#       INCLUDE_DIRECTORIES()
+#       ADD_DEFINITIONS()
+#       LINK_LIBRARIES
+# Don't use TARGET_INCLUDE_DIRECTORIES() with a path outside your module
+
+# Don't use TARGET_LINK_LIBRARIES() w/o specifying PUBLIC, PRIVATE, or INTERFACE
+# Don't use TARGET_COMPILE_OPTIONS() to set flags that affect the ABI
+
+CMAKE_MINIMUM_REQUIRED(VERSION 3.4...3.18)
+PROJECT(riaps_devs)
+
+IF(GCC)
+    ADD_COMPILE_OPTIONS(-W -Wall -Werror)
+ENDIF()
+
+add_subdirectory(externals/pybind11)
+add_subdirectory(externals/nlohmann)
+
+include_directories(/Cadmium-Simulation-Environment/cadmium/include
+                    /Cadmium-Simulation-Environment/DESTimes/include)
+
+add_compile_options(-std=c++17 -g -DDEBUG=1)
+
+pybind11_add_module(riaps_devs 
+                    pybind/pycomponent.cpp
+                    data_structures/message.cpp)
+
+                    
+
+# TARGET_LINK_LIBRARIES(riaps_devs PRIVATE /Cadmium-Simulation-Environment/cadmium)
+
+# ADD_EXECUTABLE(riaps_devs
+                # data_structures/message.cpp)
+
+# TARGET_INCLUDE_DIRECTORIES(riaps-devs PRIVATE
+#                             data_structures
+#                             utils)

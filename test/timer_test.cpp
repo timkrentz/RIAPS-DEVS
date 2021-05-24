@@ -91,6 +91,6 @@ int main(){
 
     /************** Runner call ************************/ 
     dynamic::engine::runner<NDTime, logger_top> r(TOP, {0});
-    r.run_until(NDTime("00:00:05:000"));
+    r.run_until(NDTime("00:00:01:000"));
     return 0;
 }
